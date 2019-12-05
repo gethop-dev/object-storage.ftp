@@ -46,7 +46,7 @@ Basic configuration:
 Configuration with custom FTP client configuration:
 ```edn
   :magnet.object-storage/ftp
-   {:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@my-ftp-server"
+   {:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@my-ftp-server"]
     :ftp-options {:default-timeout-ms 30000
                   :security-mode :explicit
                   :local-data-connection-mode :active
@@ -90,7 +90,7 @@ user> (def ftp-record (->
                         (->> (ig/init-key :magnet.object-storage/ftp))))
 #'user/ftp-record
 user> ftp-record
-#magnet.object-storage.ftp.FTP{{:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@my-ftp-server"
+#magnet.object-storage.ftp.FTP{{:ftp-uri "ftp://user:mypassword@my-ftp-server"
                                 :ftp-options nil}
 user>
 ```
@@ -101,7 +101,7 @@ Now that we have our `FTP` record, we are ready to use the methods defined by th
 **(get-object ftp-record object-id)**
 * description: Retrieves an object from a FTP server
 * parameters:
-  * `ftp-record`: An `FTP` record
+  * `ftp-record`: a `FTP` record
   * `object-id`: the object
 * return value: a map with the following keys
   * `:success?`: boolean stating if the operation was successful or not
@@ -128,7 +128,7 @@ user> (core/get-object ftp-record "i-dont-exist")
 **(put-object ftp-record object-id object)**
 * description: uploads an object to the FTP server with `object-id` as its filename
 * parameters:
-  * `ftp-record`: An `FTP` record
+  * `ftp-record`: a `FTP` record
   * `object-id`: the object identifier in the FTP server in other words the filename
   * `object`: the object we want to upload can be a file or an input stream.
 * return value: a map with the following keys
@@ -152,7 +152,7 @@ user> (core/put-object ftp-record "test2.txt" (io/file "files/i-dont-exist.txt")
 **(delete-object ftp-record object-id object)**
 * description: deletes an object with `object-id` in the FTP server.
 * parameters:
-  * `ftp-record`: An `FTP` record
+  * `ftp-record`: a `FTP` record
   * `object-id`: the object identifier in the FTP server in other words the filename
 * return value: a map with the following keys
   * `:success?`: boolean stating if the operation was successful or not
@@ -174,7 +174,7 @@ user> (core/delete-object ftp-record "i-dont-exist.txt")
 * description: renames an object with `object-id` to the
   `new-object-id` in the FTP server.
 * parameters:
-  * `ftp-record`: An `FTP` record
+  * `ftp-record`: a `FTP` record
   * `object-id`: the object identifier in the FTP server in other words the filename
   * `new-object-id`: the new object identifier
 * return value: a map with the following keys
@@ -196,7 +196,7 @@ user> (core/rename-object ftp-record "i-dont-exist.txt" "new-i-dont-exist.txt")
 **(list-objects ftp-record parent-object-id)**
 * description: lists all objects under the `parent-object-id`
 * parameters:
-  * `ftp-record`: An `FTP` record
+  * `ftp-record`: a `FTP` record
   * `parent-object-id`: the identifier of a folder within the FTP server.
 * return value: a map with the following keys
   * `:success?`: boolean stating if the operation was successful or not
@@ -213,7 +213,7 @@ user> (core/list-objects ftp-record "")
 
 The library includes self-contained units tests, including some integration tests that depend on a FTP server. Those tests have the `^:integration` metadata keyword associated to them, so you can exclude them from our unit tests runs.
 
-If you want to run the integration tests, the following set of environment variables are needed (the first three are the standard AWS credentials environment variables):
+If you want to run the integration tests, the following environment variable is needed:
 
 * `TEST_OBJECT_STORAGE_FTP_URI`: The uri of the FTP server used the integration tests. Be aware that the tests will leave trash files in the server. It may corrupt or delete files, so don't execute it against a real server.
 
