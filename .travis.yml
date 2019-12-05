@@ -1,0 +1,17 @@
+language: clojure
+lein: 2.9.0
+dist: xenial
+jdk:
+  -openjdk8
+before_install:
+  - docker run -d -p 20:20 -p 21:21 -p 10090-10100:10090-10100 -e PASSWORD=${FTP_TEST_PASSWORD} onjin/alpine-vsftpd:${FTP_SERVER_TEST_VERSION}
+script: lein do cljfmt check, eastwood, test :all
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: lein deploy
+  on:
+    tags: true
+cache:
+  directories:
+    - $HOME/.m2
