@@ -77,10 +77,12 @@
         file-path (.getPath tmp-file)
         result (ftp/client-get client object-id file-path)
         input-stream (io/input-stream file-path)]
-    ;; We delete the files because we don't leave wandering tempfiles
-    ;; in the file system. We can do this because in Unix systems if
-    ;; you try to delete an opened file (in this case because we
-    ;; created an input stream) it's kept until the file is closed.
+    ;; We delete the files because otherwise we would leave wandering
+    ;; tempfiles in the file system. In Unix based systems if you try
+    ;; to delete an opened file (in this case because we created an
+    ;; input stream) it's kept until the file is closed.  Which means
+    ;; the input stream can be consumed even though the file was
+    ;; deleted.
     (.delete tmp-file)
     (if result
       {:success? true
