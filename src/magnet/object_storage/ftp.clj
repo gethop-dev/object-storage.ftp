@@ -42,8 +42,8 @@
      ~@body))
 
 (s/def ::wrap-ftp-operation-args (s/cat :ftp ::FTP :f fn? :args (s/* any?)))
-(s/def ::wrap-ftp-operation-ret (s/keys :req-un [::success?]
-                                        :opt-un [::error-details]))
+(s/def ::wrap-ftp-operation-ret (s/keys :req-un [::core/success?]
+                                        :opt-un [::core/error-details]))
 (s/fdef wrap-ftp-operation
   :args ::wrap-ftp-operation-args
   :ret ::wrap-ftp-operation-ret)
@@ -62,7 +62,7 @@
 (s/def ::get-object*-args (s/cat :ftp-client ::ftp-client
                                  :object-id ::core/object-id
                                  :opts ::core/get-object-opts))
-(s/def ::get-object*-ret (s/keys :req-un [::success?]
+(s/def ::get-object*-ret (s/keys :req-un [::core/success?]
                                  :opt-un [::core/object]))
 (s/fdef get-object*
   :args ::get-object*-args
@@ -93,7 +93,7 @@
                                  :object-id ::core/object-id
                                  :object ::core/object
                                  :opts ::core/get-object-opts))
-(s/def ::put-object*-ret (s/keys :req-un [::success?]))
+(s/def ::put-object*-ret (s/keys :req-un [::core/success?]))
 
 (s/fdef put-object*
   :args ::put-object*-args
@@ -113,7 +113,7 @@
 (s/def ::delete-object*-args (s/cat :ftp-client ::ftp-client
                                     :object-id ::core/object-id
                                     :opts ::core/get-object-opts))
-(s/def ::delete-object*-ret (s/keys :req-un [::success?]))
+(s/def ::delete-object*-ret (s/keys :req-un [::core/success?]))
 
 (s/fdef delete-object*
   :args ::delete-object*-args
@@ -129,7 +129,7 @@
 (s/def ::rename-object*-args (s/cat :ftp-client ::ftp-client
                                     :object-id ::core/object-id
                                     :new-object-id ::core/object-id))
-(s/def ::rename-object*-ret (s/keys :req-un [::success?]))
+(s/def ::rename-object*-ret (s/keys :req-un [::core/success?]))
 
 (s/fdef rename-object*
   :args ::rename-object*-args
@@ -143,7 +143,7 @@
   {:success? (ftp/client-rename client object-id new-object-id)})
 
 (s/def ::list-objects*-args (s/cat :client ::ftp-client))
-(s/def ::list-objects*-ret (s/keys :req-un [::success? ::object-names]))
+(s/def ::list-objects*-ret (s/keys :req-un [::core/success? ::object-names]))
 
 (s/fdef list-objects*
   :args ::list-objects*-args
