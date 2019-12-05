@@ -130,7 +130,7 @@ user> (core/get-object ftp-record "i-dont-exist")
 * parameters:
   * `ftp-record`: An `FTP` record
   * `object-id`: the object identifier in the FTP server in other words the filename
-  * `object`: the object we want to upload
+  * `object`: the object we want to upload can be a file or an input stream.
 * return value: a map with the following keys
   * `:success?`: boolean stating if the operation was successful or not
   * `error-details`: a map with additional details on the problem
