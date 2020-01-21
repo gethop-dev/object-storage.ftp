@@ -44,9 +44,15 @@
   (str "integration-test-" (UUID/randomUUID)))
 
 (deftest record-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)]
-    (testing "ig/init-key returns the right type of record"
-      (is (instance? magnet.object_storage.ftp.FTP ftp-record)))))
+  (testing "ig/init-key returns the right type of record"
+    (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)]
+      (is (instance? FTP ftp-record)))))
+
+(deftest ftps-record-test
+  (testing "ftps uri returns right type of record"
+    (let [config {:ftp-uri "ftps://localhost"}
+          ftp-record (ig/init-key :magnet.object-storage/ftp config)]
+      (is (instance? FTP ftp-record)))))
 
 (deftest ^:integration put-get-file-test
   (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)

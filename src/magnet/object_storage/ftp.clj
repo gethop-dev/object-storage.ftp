@@ -9,7 +9,7 @@
             [magnet.object-storage.core :as core]
             [miner.ftp :as ftp])
   (:import [java.io InputStream File]
-           [java.net URL]
+           [java.net URI]
            [java.util UUID]
            [org.apache.commons.net.ftp FTPClient]))
 
@@ -19,7 +19,7 @@
 (s/def ::ftp-uri (s/and string?
                         (fn [str]
                           (try
-                            (URL. str)
+                            (URI. str)
                             (catch Exception e false)))))
 (s/def ::ftp-options map?)
 (s/def ::FTP (s/keys :req-un [::ftp-uri]
