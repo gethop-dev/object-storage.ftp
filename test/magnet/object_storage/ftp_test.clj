@@ -20,6 +20,7 @@
   (f))
 
 (def config {:ftp-uri (System/getenv "TEST_OBJECT_STORAGE_FTP_URI")})
+(def ftp-root-path (System/getenv "TEST_OBJECT_STORAGE_FTP_ROOT_PATH"))
 
 (def test-file-1-path "test-file-1")
 (def test-file-2-path "test-file-2")
@@ -125,7 +126,7 @@
 
 (deftest ^:integration list-test
   (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
-        parent-id ""
+        parent-id ftp-root-path
         object-id-1 (random-object-id)
         object-id-2 (str parent-id (UUID/randomUUID))
         object-id-3 (str parent-id (UUID/randomUUID))]
@@ -135,9 +136,9 @@
     (testing "Test objects are listed succesfully"
       (let [{:keys [success? objects] :as result} (core/list-objects ftp-record parent-id)]
         (is success?)
-        (is (list? objects))
+        (is (coll? objects))
         (is (< 2 (count objects)))
-        (are [k] (some #{(str/replace k (str parent-id "/") "")} objects)
+        (are [k] (some #{k} (map :object-id objects))
           object-id-2
           object-id-3)))))
 
