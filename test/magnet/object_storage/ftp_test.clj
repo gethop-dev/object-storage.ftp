@@ -133,11 +133,11 @@
     (core/put-object ftp-record object-id-2 (io/file test-file-2-path))
     (core/put-object ftp-record object-id-3 (io/file test-file-1-path))
     (testing "Test objects are listed succesfully"
-      (let [{:keys [success? object-names] :as result} (core/list-objects ftp-record parent-id)]
+      (let [{:keys [success? objects] :as result} (core/list-objects ftp-record parent-id)]
         (is success?)
-        (is (vector? object-names))
-        (is (< 2 (count object-names)))
-        (are [k] (some #{(str/replace k (str parent-id "/") "")} object-names)
+        (is (list? objects))
+        (is (< 2 (count objects)))
+        (are [k] (some #{(str/replace k (str parent-id "/") "")} objects)
           object-id-2
           object-id-3)))))
 

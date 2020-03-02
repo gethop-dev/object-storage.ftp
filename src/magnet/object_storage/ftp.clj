@@ -5,6 +5,7 @@
 (ns magnet.object-storage.ftp
   (:require [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
+            [clojure.string :as str]
             [integrant.core :as ig]
             [magnet.object-storage.core :as core]
             [miner.ftp :as ftp])
@@ -149,12 +150,57 @@
   :args ::list-objects*-args
   :ret ::list-objects*-ret)
 
+(defn- get-object-type-name [type-id]
+  (case type-id
+    0 :file
+    1 :directory
+    2 :symbolic-link
+    3 :unknown))
+
 (defn list-objects*
   [client]
   {:pre [(s/valid? ::ftp-client client)]}
-  (let [result (ftp/client-file-names client)]
+  (let [result (ftp/client-FTPFiles-all client)]
     {:success? (vector? result)
-     :object-names result}))
+     :objects (map (fn [ftp-file]
+                     {:object-id (.getName ftp-file)
+                      :last-modified (.getTimestamp ftp-file)
+                      :size (.getSize ftp-file)
+                      :type (get-object-type-name (.getType ftp-file))})
+                   result)}))
+
+(defn- with-slash [s]
+  (if (str/ends-with? s "/")
+    s
+    (str s "/")))
+
+(defn- get-partial-directory-list [client path]
+  (map #(str (with-slash path) %)
+       (ftp/client-directory-names client)))
+
+(defn list-objects-recursively [client]
+  (let [initial-path (ftp/client-pwd client)]
+    (loop [object-list []
+           directory-list [initial-path]]
+      (let [path (first directory-list)
+            _ (ftp/client-cd client path)
+            partial-directory-list (get-partial-directory-list client path)
+            partial-object-list (:objects (list-objects* client))
+            new-object-list (concat object-list partial-object-list)
+            new-directory-list (concat (rest directory-list) partial-directory-list)]
+        (if (empty? new-directory-list)
+          {:success? true
+           :objects new-object-list}
+          (recur new-object-list new-directory-list))))))
+
+(defn list-objects-with-opts
+  [object-adapter parent-object-id {:keys [recursive?]
+                                    :or {recursive? true}}]
+  (let [parent-object-id (str (with-slash (:ftp-uri object-adapter)) parent-object-id)
+        object-adapter (assoc object-adapter :ftp-uri parent-object-id)]
+    (if recursive?
+      (wrap-ftp-operation object-adapter list-objects-recursively)
+      (wrap-ftp-operation object-adapter list-objects*))))
 
 (defrecord FTP [ftp-uri ftp-options]
   core/ObjectStorage
@@ -177,8 +223,9 @@
     (wrap-ftp-operation this rename-object* object-id new-object-id))
 
   (list-objects [this parent-object-id]
-    (let [object-adapter (update this :ftp-uri #(str % "/" parent-object-id))]
-      (wrap-ftp-operation object-adapter list-objects*))))
+    (list-objects-with-opts this parent-object-id {}))
+  (list-objects [this parent-object-id opts]
+    (list-objects-with-opts this parent-object-id opts)))
 
 (defmethod ig/init-key :magnet.object-storage/ftp [_ {:keys [ftp-uri ftp-options]
                                                       :or {ftp-options {}}}]
