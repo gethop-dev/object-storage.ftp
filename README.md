@@ -200,6 +200,11 @@ user> (core/rename-object ftp-record "i-dont-exist.txt" "new-i-dont-exist.txt")
   * `parent-object-id`: the identifier of a folder within the FTP server.
 * return value: a map with the following keys
   * `:success?`: boolean stating if the operation was successful or not
+  * `:objects`: A collection of maps each representing an object with the following attributes:
+    - `object-id`: object's identifier
+    - `last-modified`: an instant object
+    - `size`: size in bytes
+    - `type`: the type of the object that can be: `:file`, `:directory`, `:symbolic-link` or `:unknown`
   * `error-details`: a map with additional details on the problem
     encountered while trying to retrieve the object.
 
@@ -207,7 +212,23 @@ Example:
 ``` clojure
 user> (core/list-objects ftp-record "")
 {:success? true,
- :object-names ["test1.txt" "test2.txt"]}
+ :objects
+ ({:object-id "/files/folder-1/file-1",
+   :last-modified #inst "2019-12-05T19:06:00.000+01:00",
+   :size 15,
+   :type :file}
+  {:object-id "/files/folder-1/folder-1-1",
+   :last-modified #inst "2020-02-28T10:13:00.000+01:00",
+   :size 4096,
+   :type :directory}
+  {:object-id "/files/folder-1/folder-1-1/file-2",
+   :last-modified #inst "2020-02-28T10:13:00.000+01:00",
+   :size 6,
+   :type :file}
+  {:object-id "/files/folder-1/folder-1-1/file-3",
+   :last-modified #inst "2020-02-28T09:52:00.000+01:00",
+   :size 8,
+   :type :file})}
 ```
 ## Testing
 
