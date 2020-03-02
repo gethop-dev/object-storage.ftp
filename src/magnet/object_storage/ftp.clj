@@ -157,22 +157,23 @@
     2 :symbolic-link
     3 :unknown))
 
-(defn list-objects*
-  [client]
-  {:pre [(s/valid? ::ftp-client client)]}
-  (let [result (ftp/client-FTPFiles-all client)]
-    {:success? (vector? result)
-     :objects (map (fn [ftp-file]
-                     {:object-id (.getName ftp-file)
-                      :last-modified (.getTimestamp ftp-file)
-                      :size (.getSize ftp-file)
-                      :type (get-object-type-name (.getType ftp-file))})
-                   result)}))
-
 (defn- with-slash [s]
   (if (str/ends-with? s "/")
     s
     (str s "/")))
+
+(defn list-objects*
+  [client]
+  {:pre [(s/valid? ::ftp-client client)]}
+  (let [result (ftp/client-FTPFiles-all client)
+        current-path (with-slash (ftp/client-pwd client))]
+    {:success? (vector? result)
+     :objects (map (fn [ftp-file]
+                     {:object-id (str current-path (.getName ftp-file))
+                      :last-modified (.getTimestamp ftp-file)
+                      :size (.getSize ftp-file)
+                      :type (get-object-type-name (.getType ftp-file))})
+                   result)}))
 
 (defn- get-partial-directory-list [client path]
   (map #(str (with-slash path) %)
