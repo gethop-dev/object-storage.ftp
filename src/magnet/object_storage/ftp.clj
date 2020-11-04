@@ -175,7 +175,7 @@
                            :last-modified (.getTimestamp ftp-file)
                            :size (.getSize ftp-file)
                            :type (get-object-type-name (.getType ftp-file))})))
-                   result)}))
+                    result)}))
 
 (defn- get-partial-directory-list [client path]
   (->> (ftp/client-directory-names client)
