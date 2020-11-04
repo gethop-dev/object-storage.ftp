@@ -168,16 +168,19 @@
   (let [result (ftp/client-FTPFiles-all client)
         current-path (with-slash (ftp/client-pwd client))]
     {:success? (vector? result)
-     :objects (map (fn [ftp-file]
-                     {:object-id (str current-path (.getName ftp-file))
-                      :last-modified (.getTimestamp ftp-file)
-                      :size (.getSize ftp-file)
-                      :type (get-object-type-name (.getType ftp-file))})
+     :objects (keep (fn [ftp-file]
+                      (let [name (.getName ftp-file)]
+                        (when-not (re-matches #".|.." name)
+                          {:object-id (str current-path name)
+                           :last-modified (.getTimestamp ftp-file)
+                           :size (.getSize ftp-file)
+                           :type (get-object-type-name (.getType ftp-file))})))
                    result)}))
 
 (defn- get-partial-directory-list [client path]
-  (map #(str (with-slash path) %)
-       (ftp/client-directory-names client)))
+  (->> (ftp/client-directory-names client)
+       (remove #{"." ".."})
+       (map #(str (with-slash path) %))))
 
 (defn list-objects-recursively [client]
   (let [initial-path (ftp/client-pwd client)]
