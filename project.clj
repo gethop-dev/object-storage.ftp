@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [integrant "0.7.0"]
                  [magnet/object-storage.core "0.1.1"]
-                 [com.velisco/clj-ftp "0.3.12"]]
+                 [com.velisco/clj-ftp "0.3.15"]]
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/clojars_username
                                       :password :env/clojars_password
