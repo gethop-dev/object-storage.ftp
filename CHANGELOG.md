@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## 0.1.5 - 2021-02-17
+
+### Fixed
+- Return empty list of objects if provided path doesn't exist in the
+  list-objects method [Issue #1](https://github.com/magnetcoop/object-storage.ftp/issues/1)
+
+### Breaking Change
+- Upgraded clj-ftp dependency to 0.3.15. This change bumps the minimum JVM version  to 1.7!
+
 ## 0.1.4 - 2020-11-04
 
 ### Fixed
