@@ -182,29 +182,38 @@
        (remove #{"." ".."})
        (map #(str (with-slash path) %))))
 
-(defn list-objects-recursively [client]
-  (let [initial-path (ftp/client-pwd client)]
+(defn- path->absolute-path [client path]
+  (if (str/starts-with? path "/")
+    path
+    (str (with-slash (ftp/client-pwd client)) path)))
+
+(defn list-objects-recursively [client parent-object-id]
+  (let [initial-path (path->absolute-path client parent-object-id)]
     (loop [object-list []
            directory-list [initial-path]]
-      (let [path (first directory-list)
-            _ (ftp/client-cd client path)
-            partial-directory-list (get-partial-directory-list client path)
-            partial-object-list (:objects (list-objects* client))
-            new-object-list (concat object-list partial-object-list)
-            new-directory-list (concat (rest directory-list) partial-directory-list)]
-        (if (empty? new-directory-list)
-          {:success? true
-           :objects new-object-list}
-          (recur new-object-list new-directory-list))))))
+      (if-let [path (first directory-list)]
+        (if (ftp/client-cd client path)
+          (let [partial-directory-list (get-partial-directory-list client path)
+                partial-object-list (:objects (list-objects* client))
+                new-object-list (concat object-list partial-object-list)
+                new-directory-list (concat (rest directory-list) partial-directory-list)]
+            (recur new-object-list new-directory-list))
+          (recur object-list (rest directory-list)))
+        {:success? true :objects object-list}))))
+
+(defn list-objects
+  [client parent-object-id]
+  (let [path (path->absolute-path client parent-object-id)]
+    (if-not (ftp/client-cd client path)
+      {:success? true :objects []}
+      (list-objects* client))))
 
 (defn list-objects-with-opts
   [object-adapter parent-object-id {:keys [recursive?]
                                     :or {recursive? true}}]
-  (let [parent-object-id (str (with-slash (:ftp-uri object-adapter)) parent-object-id)
-        object-adapter (assoc object-adapter :ftp-uri parent-object-id)]
-    (if recursive?
-      (wrap-ftp-operation object-adapter list-objects-recursively)
-      (wrap-ftp-operation object-adapter list-objects*))))
+  (if recursive?
+    (wrap-ftp-operation object-adapter list-objects-recursively parent-object-id)
+    (wrap-ftp-operation object-adapter list-objects parent-object-id)))
 
 (defrecord FTP [ftp-uri ftp-options]
   core/ObjectStorage
