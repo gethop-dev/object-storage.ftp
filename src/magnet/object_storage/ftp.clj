@@ -55,6 +55,8 @@
               (fn? f))]}
   (try
     (with-custom-ftp [client ftp-uri ftp-options]
+      (when (str/starts-with? ftp-uri "ftps://")
+        (ftp/encrypt-channel client))
       (apply f client args))
     (catch Exception e
       {:success? false
