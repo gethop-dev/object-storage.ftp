@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## 0.1.6 2020-03-02
+
+### Fixed
+- Enable data-channel encryption when using FTPS. If not, the
+  communication channel would't use any encryption even if FTPS was
+  used.
+
 ## 0.1.5 - 2021-02-17
 
 ### Fixed
