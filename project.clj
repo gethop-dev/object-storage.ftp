@@ -3,7 +3,7 @@
   :url "https://github.com/gethop-dev/object-storage.ftp"
   :license {:name "Mozilla Public License 2.0"
             :url "https://www.mozilla.org/en-US/2.0/"}
-  :min-lein-version "2.9.0"
+  :min-lein-version "2.9.8"
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [integrant "0.7.0"]
                  [magnet/object-storage.core "0.1.1"]
@@ -22,5 +22,11 @@
                          :port 4001}}
    :profiles/dev {}
    :project/dev {:dependencies [[digest "1.4.9"]]
-                 :plugins [[jonase/eastwood "0.3.5"]
-                           [lein-cljfmt "0.6.6"]]}})
+                 :plugins [[jonase/eastwood "1.2.3"]
+                           [lein-cljfmt "0.8.0"]]
+                 :eastwood {:linters [:all]
+                            :source-paths ["src"]
+                            :test-paths ["test"]
+                            :exclude-linters [:reflection
+                                              :unused-namespaces]
+                            :debug [:progress :time]}}})

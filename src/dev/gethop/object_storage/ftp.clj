@@ -152,7 +152,7 @@
   :args ::list-objects*-args
   :ret ::list-objects*-ret)
 
-(defn- get-object-type-name [type-id]
+(defn- get-object-type-name [^long type-id]
   (case type-id
     0 :file
     1 :directory

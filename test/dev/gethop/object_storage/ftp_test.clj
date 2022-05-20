@@ -63,7 +63,7 @@
     (testing "testing get-object"
       (let [get-result (core/get-object ftp-record object-id)]
         (is (:success? get-result))
-        (is (= (digest/sha-256 (File. test-file-1-path))
+        (is (= (digest/sha-256 (File. ^String test-file-1-path))
                (digest/sha-256 (:object get-result))))))
     (core/delete-object ftp-record object-id)))
 
@@ -97,8 +97,8 @@
 (deftest ^:integration replace-object-test
   (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)
-        f1 (File. test-file-1-path)
-        f2 (File. test-file-2-path)]
+        f1 (File. ^String test-file-1-path)
+        f2 (File. ^String test-file-2-path)]
     (testing "It should be possible to replace an object."
       (let [file-upload-result (core/put-object ftp-record object-id f1)
             file-2-upload-result (core/put-object ftp-record object-id f2)
