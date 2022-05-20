@@ -1,6 +1,6 @@
 # object-storage.ftp
-[![Build Status](https://api.travis-ci.com/magnetcoop/object-storage.ftp.svg?branch=master)](https://travis-ci.com/magnetcoop/object-storage.ftp)
-[![Clojars Project](https://img.shields.io/clojars/v/magnet/object-storage.ftp.svg)](https://clojars.org/magnet/object-storage.ftp)
+[![ci-cd](https://github.com/gethop-dev/object-storage.ftp/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/gethop-dev/object-storage.ftp/actions/workflows/ci-cd.yml)
+[![Clojars Project](https://img.shields.io/clojars/v/dev.gethop/object-storage.ftp.svg)](https://clojars.org/dev.gethop/object-storage.ftp)
 
 A library that provides an [Integrant](https://github.com/weavejester/integrant) key for managing objects in a FTP server.
 This library is a wrapper around [miner/clj-ftp](https://github.com/miner/clj-ftp).
@@ -15,7 +15,7 @@ This library is a wrapper around [miner/clj-ftp](https://github.com/miner/clj-ft
 
 ## Installation
 
-[![Clojars Project](https://clojars.org/magnet/object-storage.ftp/latest-version.svg)](https://clojars.org/magnet/object-storage.ftp)
+[![Clojars Project](https://clojars.org/dev.gethop/object-storage.ftp/latest-version.svg)](https://clojars.org/dev.gethop/object-storage.ftp)
 
 ## Usage
 
@@ -240,7 +240,7 @@ If you want to run the integration tests, the following environment variable is 
 
 ## License
 
-Copyright (c) 2019, 2020 Magnet S Coop.
+Copyright (c) 2022 HOP Technologies
 
 This Source Code Form is subject to the terms of the Mozilla Public License,
 v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain

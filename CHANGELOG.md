@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
+## [UNRELEASED]
+
+## [0.1.7] - 2022-05-20
+
+### Changed
+- Moving the repository to [gethop-dev](https://github.com/gethop-dev) organization
+- CI/CD solution switch from [TravisCI](https://travis-ci.org/) to [GitHub Actions](Ihttps://github.com/features/actions)
+- lein, cljfmt and eastwood dependencies bump
+- update this changelog's releases tags links
+
+### Added
+- Source code linting using [clj-kondo](https://github.com/clj-kondo/clj-kondo)
+
 ## [0.1.6] - 2020-03-02
 
 ### Fixed
@@ -50,6 +63,7 @@ All notable changes to this project will be documented in this file. This change
 ## [0.1.0] - 2019-12-05
 - Initial commit
 
+[UNRELEASED]: https://github.com/gethop-dev/object-storage.ftp/compare/v0.1.7...HEAD
 [0.1.6]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.6
 [0.1.5]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.5
 [0.1.4]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.4
