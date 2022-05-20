@@ -1,6 +1,6 @@
-(defproject magnet/object-storage.ftp "0.1.7-SNAPSHOT"
+(defproject dev.gethop/object-storage.ftp "0.1.7-SNAPSHOT"
   :description "A library that provides an Integrant key for managing objects in a FTP server"
-  :url "https://github.com/magnetcoop/object-storage.ftp"
+  :url "https://github.com/gethop-dev/object-storage.ftp"
   :license {:name "Mozilla Public License 2.0"
             :url "https://www.mozilla.org/en-US/2.0/"}
   :min-lein-version "2.9.0"

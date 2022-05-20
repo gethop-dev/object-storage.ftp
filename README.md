@@ -22,7 +22,7 @@ This library is a wrapper around [miner/clj-ftp](https://github.com/miner/clj-ft
 ### Configuration
 To use this library add the following key to your configuration:
 
-`:magnet.object-storage/ftp`
+`:dev.gethop.object-storage/ftp`
 
 This key expects a configuration map with one unique mandatory key, plus other optional one.
 These are the mandatory keys:
@@ -39,13 +39,13 @@ Key initialization returns a `FTP` record that can be used to perform the FTP op
 #### Configuration example
 Basic configuration:
 ```edn
-  :magnet.object-storage/ftp
+  :dev.gethop.object-storage/ftp
    {:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@my-ftp-server"]}
 ```
 
 Configuration with custom FTP client configuration:
 ```edn
-  :magnet.object-storage/ftp
+  :dev.gethop.object-storage/ftp
    {:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@my-ftp-server"]
     :ftp-options {:default-timeout-ms 30000
                   :security-mode :explicit
@@ -61,7 +61,7 @@ First we require the relevant namespaces:
 
 ```clj
 user> (require '[integrant.core :as ig]
-               '[magnet.object-storage.core :as core])
+               '[dev.gethop.object-storage.core :as core])
 nil
 user>
 ```
@@ -74,10 +74,10 @@ user> (def config {:ftp-uri #duct/env ["FTP_URI" Str :or "ftp://user:mypassword@
 user>
 ```
 
-Now that we have all pieces in place, we can initialize the `:magnet.object-storage/ftp` Integrant key to get a `FTP` record. As we are doing all this from the REPL, we have to manually require `magnet.object-storage.ftp` namespace, where the `init-key` multimethod for that key is defined (this is not needed when Duct takes care of initializing the key as part of the application start up):
+Now that we have all pieces in place, we can initialize the `:dev.gethop.object-storage/ftp` Integrant key to get a `FTP` record. As we are doing all this from the REPL, we have to manually require `dev.gethop.object-storage.ftp` namespace, where the `init-key` multimethod for that key is defined (this is not needed when Duct takes care of initializing the key as part of the application start up):
 
 ``` clj
-user> (require '[magnet.object-storage.ftp :as ftp])
+user> (require '[dev.gethop.object-storage.ftp :as ftp])
 nil
 user>
 ```
@@ -87,10 +87,10 @@ And we finally initialize the key with the configuration defined above, to get o
 ``` clj
 user> (def ftp-record (->
                         config
-                        (->> (ig/init-key :magnet.object-storage/ftp))))
+                        (->> (ig/init-key :dev.gethop.object-storage/ftp))))
 #'user/ftp-record
 user> ftp-record
-#magnet.object-storage.ftp.FTP{{:ftp-uri "ftp://user:mypassword@my-ftp-server"
+#dev.gethop.object-storage.ftp.FTP{{:ftp-uri "ftp://user:mypassword@my-ftp-server"
                                 :ftp-options nil}
 user>
 ```

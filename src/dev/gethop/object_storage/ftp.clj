@@ -2,7 +2,7 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns magnet.object-storage.ftp
+(ns dev.gethop.object-storage.ftp
   (:require [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
             [clojure.string :as str]
@@ -242,6 +242,6 @@
   (list-objects [this parent-object-id opts]
     (list-objects-with-opts this parent-object-id opts)))
 
-(defmethod ig/init-key :magnet.object-storage/ftp [_ {:keys [ftp-uri ftp-options]
-                                                      :or {ftp-options {}}}]
+(defmethod ig/init-key :dev.gethop.object-storage/ftp [_ {:keys [ftp-uri ftp-options]
+                                                          :or {ftp-options {}}}]
   (->FTP ftp-uri ftp-options))

@@ -2,7 +2,7 @@
 ;; License, v. 2.0. If a copy of the MPL was not distributed with this
 ;; file, You can obtain one at http://mozilla.org/MPL/2.0/
 
-(ns magnet.object-storage.ftp-test
+(ns dev.gethop.object-storage.ftp-test
   (:require [clojure.java.io :as io]
             [clojure.string :as str]
             [clojure.spec.test.alpha :as stest]
@@ -10,13 +10,13 @@
             [digest]
             [integrant.core :as ig]
             [magnet.object-storage.core :as core]
-            [magnet.object-storage.ftp])
+            [dev.gethop.object-storage.ftp])
   (:import [java.io File]
            [java.util UUID]
-           [magnet.object_storage.ftp FTP]))
+           [dev.gethop.object_storage.ftp FTP]))
 
 (defn enable-instrumentation [f]
-  (-> (stest/enumerate-namespace 'magnet.object-storage.ftp) stest/instrument)
+  (-> (stest/enumerate-namespace 'dev.gethop.object-storage.ftp) stest/instrument)
   (f))
 
 (def config {:ftp-uri (System/getenv "TEST_OBJECT_STORAGE_FTP_URI")})
@@ -46,17 +46,17 @@
 
 (deftest record-test
   (testing "ig/init-key returns the right type of record"
-    (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)]
+    (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)]
       (is (instance? FTP ftp-record)))))
 
 (deftest ftps-record-test
   (testing "ftps uri returns right type of record"
     (let [config {:ftp-uri "ftps://localhost"}
-          ftp-record (ig/init-key :magnet.object-storage/ftp config)]
+          ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)]
       (is (instance? FTP ftp-record)))))
 
 (deftest ^:integration put-get-file-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)
         put-result (core/put-object ftp-record object-id (io/file test-file-1-path))]
     (testing "testing put-object"
@@ -69,7 +69,7 @@
     (core/delete-object ftp-record object-id)))
 
 (deftest ^:integration put-get-stream-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)
         bytes (.getBytes "Test message")
         stream (io/input-stream bytes)
@@ -86,7 +86,7 @@
     (core/delete-object ftp-record object-id)))
 
 (deftest ^:integration delete-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)]
     (core/put-object ftp-record object-id (io/file test-file-1-path))
     (testing "test object is deleted succesfully"
@@ -96,7 +96,7 @@
         (is (not (:success? get-result)))))))
 
 (deftest ^:integration replace-object-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)
         f1 (File. test-file-1-path)
         f2 (File. test-file-2-path)]
@@ -112,7 +112,7 @@
     (core/delete-object ftp-record object-id)))
 
 (deftest ^:integration rename-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)
         new-object-id (random-object-id)]
     (core/put-object ftp-record object-id (io/file test-file-1-path))
@@ -125,7 +125,7 @@
         (is (:success? new-get-result))))))
 
 (deftest ^:integration list-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         parent-id ftp-root-path
         object-id-1 (random-object-id)
         object-id-2 (str parent-id (UUID/randomUUID))
@@ -143,7 +143,7 @@
           object-id-3)))))
 
 (deftest ^:integration unexistent-object-test
-  (let [ftp-record (ig/init-key :magnet.object-storage/ftp config)
+  (let [ftp-record (ig/init-key :dev.gethop.object-storage/ftp config)
         object-id (random-object-id)]
     (testing "Test methods with an unexistent object-id"
       (are [method] (not (:success? (method ftp-record object-id)))
