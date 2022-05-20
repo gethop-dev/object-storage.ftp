@@ -4,13 +4,12 @@
 
 (ns dev.gethop.object-storage.ftp-test
   (:require [clojure.java.io :as io]
-            [clojure.string :as str]
             [clojure.spec.test.alpha :as stest]
             [clojure.test :refer :all]
+            [dev.gethop.object-storage.ftp]
             [digest]
             [integrant.core :as ig]
-            [magnet.object-storage.core :as core]
-            [dev.gethop.object-storage.ftp])
+            [magnet.object-storage.core :as core])
   (:import [java.io File]
            [java.util UUID]
            [dev.gethop.object_storage.ftp FTP]))
@@ -134,7 +133,7 @@
     (core/put-object ftp-record object-id-2 (io/file test-file-2-path))
     (core/put-object ftp-record object-id-3 (io/file test-file-1-path))
     (testing "Test objects are listed succesfully"
-      (let [{:keys [success? objects] :as result} (core/list-objects ftp-record parent-id)]
+      (let [{:keys [success? objects]} (core/list-objects ftp-record parent-id)]
         (is success?)
         (is (coll? objects))
         (is (< 2 (count objects)))
