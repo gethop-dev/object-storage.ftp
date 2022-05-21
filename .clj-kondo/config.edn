@@ -16,5 +16,8 @@
   :redundant-fn-wrapper
   {:level :warning}
 
+  :unresolved-symbol
+  {:exclude [(dev.gethop.object-storage.ftp/with-custom-ftp [client])]}
+
   :missing-docstring
   {:level :info}}}

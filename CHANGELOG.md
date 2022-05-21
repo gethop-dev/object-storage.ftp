@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file. This change
 ## [UNRELEASED]
 ### Fixed
 - Several Eastwood reflexion and unused namespaces warnings.
+- Several clj-kondo warnings.
 
 ## [0.1.7] - 2022-05-20
 
