@@ -11,8 +11,7 @@
             [miner.ftp :as ftp])
   (:import [java.io InputStream File]
            [java.net URI]
-           [java.util UUID]
-           [org.apache.commons.net.ftp FTPClient]))
+           [org.apache.commons.net.ftp FTPClient FTPFile]))
 
 (s/def ::input-stream #(instance? InputStream %))
 (s/def ::object-names (s/coll-of ::core/object-id :kind vector?))
@@ -109,7 +108,7 @@
               (s/valid? ::core/object object)
               (s/valid? ::core/put-object-opts opts))]}
   (if (instance? File object)
-    (let [local-path (.getPath object)]
+    (let [local-path (.getPath ^File object)]
       {:success? (ftp/client-put client local-path object-id)})
     {:success? (ftp/client-put-stream client object object-id)}))
 
@@ -170,7 +169,7 @@
   (let [result (ftp/client-FTPFiles-all client)
         current-path (with-slash (ftp/client-pwd client))]
     {:success? (vector? result)
-     :objects (keep (fn [ftp-file]
+     :objects (keep (fn [^FTPFile ftp-file]
                       (let [name (.getName ftp-file)]
                         (when-not (re-matches #".|.." name)
                           {:object-id (str current-path name)

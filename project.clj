@@ -25,6 +25,4 @@
                  :plugins [[jonase/eastwood "1.2.3"]
                            [lein-cljfmt "0.8.0"]]
                  :eastwood {:linters [:all]
-                            :exclude-linters [:reflection
-                                              :unused-namespaces]
                             :debug [:progress :time]}}})
