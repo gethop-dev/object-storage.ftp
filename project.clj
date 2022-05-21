@@ -1,4 +1,4 @@
-(defproject dev.gethop/object-storage.ftp "0.1.8-SNAPSHOT"
+(defproject dev.gethop/object-storage.ftp "0.1.8"
   :description "A library that provides an Integrant key for managing objects in a FTP server"
   :url "https://github.com/gethop-dev/object-storage.ftp"
   :license {:name "Mozilla Public License 2.0"
