@@ -20,7 +20,7 @@
                         (fn [str]
                           (try
                             (URI. str)
-                            (catch Exception e false)))))
+                            (catch Exception _ false)))))
 (s/def ::ftp-options map?)
 (s/def ::FTP (s/keys :req-un [::ftp-uri]
                      :opt-un [::ftp-options]))
@@ -70,7 +70,7 @@
   :args ::get-object*-args
   :ret ::get-object*-ret)
 
-(defn get-object*
+(defn- get-object*
   [client object-id opts]
   {:pre [(and (s/valid? ::ftp-client client)
               (s/valid? ::core/object-id object-id)
@@ -101,7 +101,7 @@
   :args ::put-object*-args
   :ret ::put-object*-ret)
 
-(defn put-object*
+(defn- put-object*
   [client object-id object opts]
   {:pre [(and (s/valid? ::ftp-client client)
               (s/valid? ::core/object-id object-id)
@@ -121,7 +121,7 @@
   :args ::delete-object*-args
   :ret ::delete-object*-ret)
 
-(defn delete-object*
+(defn- delete-object*
   [client object-id opts]
   {:pre [(and (s/valid? ::ftp-client client)
               (s/valid? ::core/object-id object-id)
@@ -137,7 +137,7 @@
   :args ::rename-object*-args
   :ret ::rename-object*-ret)
 
-(defn rename-object*
+(defn- rename-object*
   [client object-id new-object-id]
   {:pre [(and (s/valid? ::ftp-client client)
               (s/valid? ::core/object-id object-id)
@@ -163,7 +163,7 @@
     s
     (str s "/")))
 
-(defn list-objects*
+(defn- list-objects*
   [client]
   {:pre [(s/valid? ::ftp-client client)]}
   (let [result (ftp/client-FTPFiles-all client)
@@ -188,7 +188,7 @@
     path
     (str (with-slash (ftp/client-pwd client)) path)))
 
-(defn list-objects-recursively [client parent-object-id]
+(defn- list-objects-recursively [client parent-object-id]
   (let [initial-path (path->absolute-path client parent-object-id)]
     (loop [object-list []
            directory-list [initial-path]]
@@ -202,14 +202,14 @@
           (recur object-list (rest directory-list)))
         {:success? true :objects object-list}))))
 
-(defn list-objects
+(defn- list-objects
   [client parent-object-id]
   (let [path (path->absolute-path client parent-object-id)]
     (if-not (ftp/client-cd client path)
       {:success? true :objects []}
       (list-objects* client))))
 
-(defn list-objects-with-opts
+(defn- list-objects-with-opts
   [object-adapter parent-object-id {:keys [recursive?]
                                     :or {recursive? true}}]
   (if recursive?
