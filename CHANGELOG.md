@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
 ## [UNRELEASED]
+### Fixed
+- Several Eastwood reflexion and unused namespaces warnings.
 
 ## [0.1.7] - 2022-05-20
 

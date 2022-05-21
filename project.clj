@@ -25,4 +25,5 @@
                  :plugins [[jonase/eastwood "1.2.3"]
                            [lein-cljfmt "0.8.0"]]
                  :eastwood {:linters [:all]
+                            :ignored-faults {:unused-namespaces {dev.gethop.object-storage.ftp-test true}}
                             :debug [:progress :time]}}})
