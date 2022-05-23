@@ -94,7 +94,7 @@ user> ftp-record
                                 :ftp-options nil}
 user>
 ```
-Now that we have our `FTP` record, we are ready to use the methods defined by the protocol [ObjectStorage](https://github.com/magnetcoop/object-storage.core).
+Now that we have our `FTP` record, we are ready to use the methods defined by the protocol [ObjectStorage](https://github.com/gethop-dev/object-storage.core).
 
 ### FTP object operations
 
