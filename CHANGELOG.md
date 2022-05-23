@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file. This change
 
 ## [UNRELEASED]
 
+## [0.1.9] - 2022-05-23
+
+### Changed
+- Use the latest version of `object-storage.core` library
+
 ## [0.1.8] - 2022-05-21
 
 ### Fixed
@@ -69,7 +74,8 @@ All notable changes to this project will be documented in this file. This change
 ## [0.1.0] - 2019-12-05
 - Initial commit
 
-[UNRELEASED]: https://github.com/gethop-dev/object-storage.ftp/compare/v0.1.8...HEAD
+[UNRELEASED]: https://github.com/gethop-dev/object-storage.ftp/compare/v0.1.9...HEAD
+[0.1.9]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.9
 [0.1.8]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.8
 [0.1.7]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.7
 [0.1.6]: https://github.com/gethop-dev/object-storage.ftp/releases/tag/v0.1.6
