@@ -6,13 +6,13 @@
   (:require [clojure.java.io :as io]
             [clojure.spec.test.alpha :as stest]
             [clojure.test :refer :all]
+            [dev.gethop.object-storage.core :as core]
             [dev.gethop.object-storage.ftp]
             [digest]
-            [integrant.core :as ig]
-            [magnet.object-storage.core :as core])
-  (:import [java.io File]
-           [java.util UUID]
-           [dev.gethop.object_storage.ftp FTP]))
+            [integrant.core :as ig])
+  (:import [dev.gethop.object_storage.ftp FTP]
+           [java.io File]
+           [java.util UUID]))
 
 (defn enable-instrumentation [f]
   (-> (stest/enumerate-namespace 'dev.gethop.object-storage.ftp) stest/instrument)

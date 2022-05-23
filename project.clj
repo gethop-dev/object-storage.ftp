@@ -6,7 +6,7 @@
   :min-lein-version "2.9.8"
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [integrant "0.7.0"]
-                 [magnet/object-storage.core "0.1.1"]
+                 [dev.gethop/object-storage.core "0.1.4"]
                  [com.velisco/clj-ftp "0.3.15"]]
   :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
                                       :username :env/CLOJARS_USERNAME

@@ -6,8 +6,8 @@
   (:require [clojure.java.io :as io]
             [clojure.spec.alpha :as s]
             [clojure.string :as str]
+            [dev.gethop.object-storage.core :as core]
             [integrant.core :as ig]
-            [magnet.object-storage.core :as core]
             [miner.ftp :as ftp])
   (:import [java.io InputStream File]
            [java.net URI]
